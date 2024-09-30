@@ -1,0 +1,17 @@
+[package]
+name = "real_unit_macro"
+version = "0.1.0"
+edition = "2021"
+authors = ["Craig Osborn <craig@craigosborn.dev>"]
+description = "Macros to create real unit numbers for the `real-unit` crate"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+quote = "1.0"
+proc-macro2 = "1.0"
+syn = { version = "2.0", features = [
+    "parsing",
+    "proc-macro",
+], default-features = false }

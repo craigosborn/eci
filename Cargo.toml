@@ -1,0 +1,3 @@
+[workspace]
+members = ["real_unit", "real_unit_macro"]
+resolver = "2"
