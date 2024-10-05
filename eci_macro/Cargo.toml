@@ -1,9 +1,9 @@
 [package]
-name = "real_unit_macro"
+name = "eci_macro"
 version = "0.1.0"
 edition = "2021"
 authors = ["Craig Osborn <craig@craigosborn.dev>"]
-description = "Macros to create real unit numbers for the `real-unit` crate"
+description = "Macros to create elements on closed intervals for the `eci` crate"
 
 [lib]
 proc-macro = true

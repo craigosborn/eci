@@ -1,0 +1,13 @@
+[package]
+name = "real_unit"
+version = "0.1.0"
+edition = "2021"
+authors = ["Craig Osborn <craig@craigosborn.dev>"]
+description = "Elements on closed intervals"
+
+[features]
+default = ["macros"]
+macros = ["eci_macro"]
+
+[dependencies]
+eci_macro = { path = "../eci_macro", optional = true }
