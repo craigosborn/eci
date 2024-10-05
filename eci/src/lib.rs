@@ -1,6 +1,4 @@
 #![feature(generic_const_exprs)]
-#![feature(const_trait_impl)]
-#![feature(effects)]
 #![allow(incomplete_features)]
 
 mod eci;
