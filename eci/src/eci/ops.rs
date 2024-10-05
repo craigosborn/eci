@@ -4,39 +4,39 @@ use super::Eci64;
 use core::ops::Mul;
 use core::ops::{Add, Sub};
 
-impl<const N1: i64, const P1: i64, const N2: i64, const P2: i64> Add<Eci64<N2, P2>>
-    for Eci64<N1, P1>
+impl<const A1: i64, const B1: i64, const A2: i64, const B2: i64> Add<Eci64<A2, B2>>
+    for Eci64<A1, B1>
 where
-    [(); { N1 + N2 } as usize]:,
-    [(); { P1 + P2 } as usize]:,
+    [(); { A1 + A2 } as usize]:,
+    [(); { B1 + B2 } as usize]:,
 {
-    type Output = Eci64<{ N1 + N2 }, { P1 + P2 }>;
+    type Output = Eci64<{ A1 + A2 }, { B1 + B2 }>;
 
-    fn add(self, other: Eci64<N2, P2>) -> Self::Output {
+    fn add(self, other: Eci64<A2, B2>) -> Self::Output {
         let sum = self.as_f64() + other.as_f64();
         Eci64(sum)
     }
 }
 
-impl<const N1: i64, const P1: i64, const N2: i64, const P2: i64> Sub<Eci64<N2, P2>>
-    for Eci64<N1, P1>
+impl<const A1: i64, const B1: i64, const A2: i64, const B2: i64> Sub<Eci64<A2, B2>>
+    for Eci64<A1, B1>
 where
-    [(); { N1 - P2 } as usize]:,
-    [(); { P1 - N2 } as usize]:,
+    [(); { A1 - B2 } as usize]:,
+    [(); { B1 - A2 } as usize]:,
 {
-    type Output = Eci64<{ N1 - P2 }, { P1 - N2 }>;
+    type Output = Eci64<{ A1 - B2 }, { B1 - A2 }>;
 
-    fn sub(self, other: Eci64<N2, P2>) -> Self::Output {
+    fn sub(self, other: Eci64<A2, B2>) -> Self::Output {
         let diff = self.as_f64() - other.as_f64();
         Eci64(diff)
     }
 }
 
-pub const fn mul_max(n1: i64, p1: i64, n2: i64, p2: i64) -> i64 {
-    let nn = n1 * n2;
-    let np = n1 * p2;
-    let pn = p1 * n2;
-    let pp = p1 * p2;
+pub const fn mul_max(a1: i64, b1: i64, a2: i64, b2: i64) -> i64 {
+    let nn = a1 * a2;
+    let np = a1 * b2;
+    let pn = b1 * a2;
+    let pp = b1 * b2;
     if nn > np && nn > pn && nn > pp {
         nn
     } else if np > pn && np > pp {
@@ -48,11 +48,11 @@ pub const fn mul_max(n1: i64, p1: i64, n2: i64, p2: i64) -> i64 {
     }
 }
 
-pub const fn mul_min(n1: i64, p1: i64, n2: i64, p2: i64) -> i64 {
-    let nn = n1 * n2;
-    let np = n1 * p2;
-    let pn = p1 * n2;
-    let pp = p1 * p2;
+pub const fn mul_min(a1: i64, b1: i64, a2: i64, b2: i64) -> i64 {
+    let nn = a1 * a2;
+    let np = a1 * b2;
+    let pn = b1 * a2;
+    let pp = b1 * b2;
     if nn < np && nn < pn && nn < pp {
         nn
     } else if np < pn && np < pp {
@@ -64,20 +64,36 @@ pub const fn mul_min(n1: i64, p1: i64, n2: i64, p2: i64) -> i64 {
     }
 }
 
-impl<const N1: i64, const P1: i64, const N2: i64, const P2: i64> Mul<Eci64<N2, P2>>
-    for Eci64<N1, P1>
+impl<const A1: i64, const B1: i64, const A2: i64, const B2: i64> Mul<Eci64<A2, B2>>
+    for Eci64<A1, B1>
 where
-    [(); { mul_max(N1, P2, N2, P2) } as usize]:,
-    [(); { mul_min(N1, P2, N2, P2) } as usize]:,
+    [(); { mul_max(A1, B1, A2, B2) } as usize]:,
+    [(); { mul_min(A1, B1, A2, B2) } as usize]:,
 {
-    type Output = Eci64<{ mul_min(N1, P2, N2, P2) }, { mul_max(N1, P2, N2, P2) }>;
+    type Output = Eci64<{ mul_min(A1, B1, A2, B2) }, { mul_max(A1, B1, A2, B2) }>;
 
-    fn mul(self, other: Eci64<N2, P2>) -> Self::Output {
+    fn mul(self, other: Eci64<A2, B2>) -> Self::Output {
         let prod = self.as_f64() * other.as_f64();
         Eci64(prod)
     }
 }
 
-impl<const N: i64, const P: i64> Eci64<N,P> {
+impl<const N: i64, const P: i64> Eci64<N, P> {
+    pub fn cos_degrees(&self) -> Eci64<-1, 1> {
+        Eci64(self.0.to_radians().cos())
+    }
 
+    pub fn sin_degrees(&self) -> Eci64<-1, 1> {
+        Eci64(self.0.to_radians().sin())
+    }
+}
+
+impl Eci64<-1, 1> {
+    pub fn acos_degrees(&self) -> Eci64<0, 180> {
+        Eci64(self.0.acos().to_degrees())
+    }
+
+    pub fn asin_degrees(&self) -> Eci64<-90, 90> {
+        Eci64(self.0.asin().to_degrees())
+    }
 }

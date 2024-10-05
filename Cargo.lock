@@ -3,6 +3,13 @@
 version = 3
 
 [[package]]
+name = "eci"
+version = "0.1.0"
+dependencies = [
+ "eci_macro",
+]
+
+[[package]]
 name = "eci_macro"
 version = "0.1.0"
 dependencies = [
@@ -27,13 +34,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b5b9d34b8991d19d98081b46eacdd8eb58c6f2b201139f7c5f643cc155a633af"
 dependencies = [
  "proc-macro2",
-]
-
-[[package]]
-name = "real_unit"
-version = "0.1.0"
-dependencies = [
- "eci_macro",
 ]
 
 [[package]]
