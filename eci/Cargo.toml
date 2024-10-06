@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Craig Osborn <craig@craigosborn.dev>"]
 description = "Elements on closed intervals"
+license = "MIT"
 
 [features]
 default = ["macros"]
